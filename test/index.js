@@ -29,8 +29,10 @@ const orchestrator = new Orchestrator({
 
   globalConfig: {
     logger: false,
-    network: 'sim2h',
-    sim2h_url: 'wss://sim2h.holochain.org:9000',
+    network: {
+      type: 'sim2h',
+      sim2h_url: 'wss://sim2h.holochain.org:9000',
+    },
   },
 
   // the following are optional:
@@ -46,5 +48,14 @@ const conductorConfig = {
     cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
   }
 }
+
+orchestrator.registerScenario('Test hello holo', async (s, t) => {
+  const { alice, bob } = await s.players({ alice: conductorConfig, bob: conductorConfig }, true)
+
+  const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {})
+
+  t.ok(result.Ok)
+  t.deepEqual(result, { Ok: 'Hello Holo' })
+})
 
 orchestrator.run()
