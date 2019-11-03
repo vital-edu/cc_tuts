@@ -28,7 +28,7 @@ const orchestrator = new Orchestrator({
   ),
 
   globalConfig: {
-    logger: true,
+    logger: false,
     network: 'memory',  // must use singleConductor middleware if using in-memory network
   },
 
