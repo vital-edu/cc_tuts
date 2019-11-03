@@ -29,7 +29,8 @@ const orchestrator = new Orchestrator({
 
   globalConfig: {
     logger: false,
-    network: 'memory',  // must use singleConductor middleware if using in-memory network
+    network: 'sim2h',
+    sim2h_url: 'wss://sim2h.holochain.org:9000',
   },
 
   // the following are optional:
@@ -42,7 +43,7 @@ const orchestrator = new Orchestrator({
 
 const conductorConfig = {
   instances: {
-    myInstanceName: Config.dna(dnaPath, 'scaffold-test')
+    cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
   }
 }
 
