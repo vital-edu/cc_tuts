@@ -21,7 +21,7 @@ use hdk_proc_macros::zome;
 // agent's chain via the exposed function create_my_entry
 
 #[zome]
-mod my_zome {
+mod hello_zome {
 
     #[init]
     fn init() {
