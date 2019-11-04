@@ -24,9 +24,9 @@ const orchestrator = new Orchestrator({
 
     // use the tape harness to run the tests, injects the tape API into each scenario
     // as the second argument
-    tapeExecutor(require('tape'))
-  ),
+    tapeExecutor(tape),
 
+  ),
   globalConfig: {
     logger: false,
     network: {
@@ -46,17 +46,20 @@ const orchestrator = new Orchestrator({
 const conductorConfig = {
   instances: {
     cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
-  }
+  },
 }
 
 orchestrator.registerScenario('Test hello holo', async (s, t) => {
   const { alice, bob } = await s.players({ alice: conductorConfig, bob: conductorConfig }, true)
-
+  // Make a call to the `hello_holo` Zome function
+  // passing no arguments.
   const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {})
-
+  // Make sure the result is ok.
   t.ok(result.Ok)
-  t.deepEqual(result, { Ok: 'Hello Holo' })
 
+  // Check that the result matches what you expected.
+  t.deepEqual(result, { Ok: 'Hello Holo' })
+  await s.consistency()
   const create_result = await alice.call('cc_tuts', 'hello', 'create_person', {
     'person': { 'name': 'Alice' }
   })
@@ -72,6 +75,14 @@ orchestrator.registerScenario('Test hello holo', async (s, t) => {
 
   t.ok(retrieve_result.Ok)
   t.deepEqual(retrieve_result, { Ok: { 'name': 'Alice' } })
+
+  await s.consistency();
+  const bob_retrieve_result = await bob.call('cc_tuts', 'hello', 'retrieve_person', {
+    'address': alice_person_address
+  });
+  t.ok(bob_retrieve_result.Ok);
+  const bobs_person = bob_retrieve_result.Ok;
+  t.deepEqual(bobs_person, { 'name': 'Alice' });
 })
 
 
