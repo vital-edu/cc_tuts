@@ -71,7 +71,7 @@ orchestrator.registerScenario('Test hello holo', async (s, t) => {
   })
 
   t.ok(retrieve_result.Ok)
-  t.deepEqual(retrieve_result.Ok, { Ok: { 'name': 'Alice' } })
+  t.deepEqual(retrieve_result, { Ok: { 'name': 'Alice' } })
 })
 
 
