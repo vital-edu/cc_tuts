@@ -18,6 +18,11 @@ use hdk_proc_macros::zome;
 // This is a sample zome that defines an entry type "MyEntry" that can be committed to the
 // agent's chain via the exposed function create_my_entry
 
+#[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
+pub struct Person {
+    name: String
+}
+
 #[zome]
 mod hello_zome {
 
@@ -34,5 +39,20 @@ mod hello_zome {
     #[zome_fn("hc_public")]
     fn hello_holo() -> ZomeApiResult<String> {
         Ok("Hello Holo".into())
+    }
+
+    #[entry_def]
+    fn person_entry_def() -> ValidatingEntryType {
+        entry!(
+            name: "person",
+            description "Person to say hello to",
+            sharing: Sharing::Private,
+            validation_package: || {
+                hdk::ValidationPackageDefinition::Entry
+            },
+            validation: | _validation_data: hdk::EntryValidationData<Person> | {
+                Ok(())
+            }
+        )
     }
 }
