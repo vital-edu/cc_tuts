@@ -29,10 +29,7 @@ const orchestrator = new Orchestrator({
   ),
   globalConfig: {
     logger: false,
-    network: {
-      type: 'sim2h',
-      sim2h_url: 'wss://sim2h.holochain.org:9000',
-    },
+    network: 'memory',
   },
 
   // the following are optional:
