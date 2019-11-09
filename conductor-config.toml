@@ -12,7 +12,7 @@ test_agent = true
 
 [[dnas]]
 file = '/home/vital/Code/holochain/core_concepts/cc_tuts/dist/cc_tuts.dna.json'
-hash = 'QmRLPMx7q5tVwbREK3Spwbi7BxbnNuDDTg2AwqAVW9Q5G5'
+hash = 'QmVEtRXBasijzWZR7bpGPn5sNMtkWYWqa3e4jmbvGvje28'
 id = 'hc-run-dna'
 
 [[instances]]
